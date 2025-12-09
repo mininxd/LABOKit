@@ -43,7 +43,7 @@ LABOKit capabilities can be extended using `.kit` plugins.
 *(To uninstall, simply delete the file from the plugins folder via **Config > Open Plugins Folder**).*
 
 ## Available Plugin 
-### Video Upscaler
+### 1. Video Upscaler
 **File:** **[VideoUpscaler.kit](https://github.com/wagakano/LABOKit/releases)**  
 **Status:** ✅ Released  
 
@@ -58,7 +58,7 @@ Upscale video files significantly using the power of **Real-ESRGAN** and **FFmpe
 
 ---
 
-### PhotoPull
+### 2. PhotoPull
 **File:** `PhotoPull.kit`  
 **Status:** Work in Progress
 
