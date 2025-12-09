@@ -62,6 +62,8 @@ Give your images a stunning retro aesthetic. Apply old-school shading and color 
 * **Algorithms:** Floyd-Steinberg, Bayer Matrix (Ordered), and Noise.
 * **STEINS;GATE Special:** Unique "Glitch" animation on the World Line Meter.
 
+* 🍌 If you're from r/steinsgate, you can get the this Plugin for free! Just DM me your email (u/Lazy-Time-1807) and I'll send the .kit to you.
+
 ![Dithering FX Preview](gif/Dithering_FX_Preview.gif)
 
 ### 3. Image Converter
