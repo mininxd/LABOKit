@@ -45,7 +45,7 @@ LABOKit capabilities can be extended using `.kit` plugins.
 ## Available Plugin 
 ### 1. Video Upscaler
 **File:** **[VideoUpscaler.kit](https://github.com/wagakano/LABOKit/releases)**  
-**Status:** ✅ Released  
+**Status:** Released  
 
 Upscale video files significantly using the power of **Real-ESRGAN** and **FFmpeg**. This plugin automates the complex process of frame-by-frame AI enhancement.
 
