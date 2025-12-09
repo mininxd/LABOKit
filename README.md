@@ -1,4 +1,4 @@
-# LABOKit v1.4
+# LABOKit v1.4 - **NEW** VideoUpscaler
 
 <img width="1365" height="416" alt="Image" src="https://github.com/user-attachments/assets/f4ab1e1b-de1c-4a0f-a648-25b210f0ea4f" />
 
@@ -42,9 +42,25 @@ LABOKit capabilities can be extended using `.kit` plugins.
 3.  Select the plugin file. It will be installed permanently.
 *(To uninstall, simply delete the file from the plugins folder via **Config > Open Plugins Folder**).*
 
-### Available Plugin 
-* **VideoUpscaler.kit** (Work in Progress)
-* **PhotoPull.kit** (Work in Progress)
+## Available Plugin 
+### Video Upscaler
+**File:** **[VideoUpscaler.kit](https://github.com/wagakano/LABOKit/releases)**  
+**Status:** ✅ Released  
+
+Upscale video files significantly using the power of **Real-ESRGAN** and **FFmpeg**. This plugin automates the complex process of frame-by-frame AI enhancement.
+
+**Workflow:**
+1.  **Extract:** Breaks down the video into individual frames.
+2.  **Upscale:** Processes frames in batch using AI models (Scale 2x - 4x).
+3.  **Merge:** Recombines frames into a video file while preserving the original audio.
+
+> **⚠️ Note:** This process is resource-intensive (GPU/CPU) and may take a long time depending on the video length and upscaling factor.
+
+---
+
+### PhotoPull
+**File:** `PhotoPull.kit`  
+**Status:** Work in Progress
 
 ## Advanced Plugins
 Also you can get the **Advanced Plugin Bundle** by supporting the development (Donation/Pay What You Want).
