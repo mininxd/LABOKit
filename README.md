@@ -56,12 +56,6 @@ Upscale video files significantly using the power of **Real-ESRGAN** and **FFmpe
 
 > **⚠️ Note:** This process is resource-intensive (GPU/CPU) and may take a long time depending on the video length and upscaling factor.
 
----
-
-### 2. PhotoPull
-**File:** `PhotoPull.kit`  
-**Status:** Work in Progress
-
 ## Advanced Plugins
 Also you can get the **Advanced Plugin Bundle** by supporting the development (Donation/Pay What You Want).
 
