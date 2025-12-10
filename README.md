@@ -56,6 +56,8 @@ Upscale video files significantly using the power of **Real-ESRGAN** and **FFmpe
 
 > **⚠️ Note:** This process is resource-intensive (GPU/CPU) and may take a long time depending on the video length and upscaling factor.
 
+<img width="1134" height="467" alt="Image" src="https://github.com/user-attachments/assets/d327ebd1-9a5c-444d-8328-715bfe11f045" />
+
 ## Advanced Plugins
 Also you can get the **Advanced Plugin Bundle** by supporting the development (Donation/Pay What You Want).
 
