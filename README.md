@@ -18,6 +18,14 @@
 <img width="1134" height="473" alt="Image" src="https://github.com/user-attachments/assets/580a586d-b778-41c3-a8e5-8692be7f370b" />
 <img width="1132" height="476" alt="Image" src="https://github.com/user-attachments/assets/de3e61d1-d1b8-419f-9e70-94a95c63830d" />
 
+## What's New in v2.0 (UPCOMING)
+
+* **ImageLAB (New Feature):** A built-in image editor to add effects like Pattern Overlay, Advanced Gradient Map, Partial Color, and Artifact Glitch.
+* **Dithering FX Update:** Improved dithering results, refreshed UI, and more configuration options.
+* **ONNX Loader Plugin:** Load your own custom `.onnx` upscaling models. LABOKit now serves as a GUI for your personal models.
+* **UI Overhaul:** Significant improvements to the overall user interface.
+* **App Update Notifications & Plugin Auto-Updates:** You will receive a notification when a new version of LABOKit is available. Additionally, any installed plugins will update automatically, eliminating the need to redownload them manually.
+
 ## 📥 Download (Portable Version)
 
 1.  Go to the **[Releases](https://github.com/wagakano/LABOKit/releases)** page.
