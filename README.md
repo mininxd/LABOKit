@@ -1,4 +1,4 @@
-# LABOKit v1.4
+# LABOKit v1.4 - **NEW** ⌀ Added VideoUpscaler
 
 <img width="1365" height="416" alt="Image" src="https://github.com/user-attachments/assets/f4ab1e1b-de1c-4a0f-a648-25b210f0ea4f" />
 
@@ -42,9 +42,21 @@ LABOKit capabilities can be extended using `.kit` plugins.
 3.  Select the plugin file. It will be installed permanently.
 *(To uninstall, simply delete the file from the plugins folder via **Config > Open Plugins Folder**).*
 
-### Available Plugin 
-* **VideoUpscaler.kit** (Work in Progress)
-* **PhotoPull.kit** (Work in Progress)
+## Available Plugin 
+### 1. Video Upscaler
+**File:** **[VideoUpscaler.kit](https://github.com/wagakano/LABOKit/releases)**  
+**Status:** Released  
+
+Upscale video files significantly using the power of **Real-ESRGAN** and **FFmpeg**. This plugin automates the complex process of frame-by-frame AI enhancement.
+
+**Workflow:**
+1.  **Extract:** Breaks down the video into individual frames.
+2.  **Upscale:** Processes frames in batch using AI models (Scale 2x - 4x).
+3.  **Merge:** Recombines frames into a video file while preserving the original audio.
+
+> **⚠️ Note:** This process is resource-intensive (GPU/CPU) and may take a long time depending on the video length and upscaling factor.
+
+<img width="1134" height="467" alt="Image" src="https://github.com/user-attachments/assets/d327ebd1-9a5c-444d-8328-715bfe11f045" />
 
 ## Advanced Plugins
 Also you can get the **Advanced Plugin Bundle** by supporting the development (Donation/Pay What You Want).
@@ -61,6 +73,8 @@ Give your images a stunning retro aesthetic. Apply old-school shading and color 
 * **Styles:** GameBoy (Classic/Pocket), Macintosh 1-Bit, Cyberpunk, and Halftone.
 * **Algorithms:** Floyd-Steinberg, Bayer Matrix (Ordered), and Noise.
 * **STEINS;GATE Special:** Unique "Glitch" animation on the World Line Meter.
+
+* 🍌 If you're from r/steinsgate, you can get the this Plugin for free! Just DM me your email (u/Lazy-Time-1807) and I'll send the .kit to you.
 
 ![Dithering FX Preview](gif/Dithering_FX_Preview.gif)
 
