@@ -1,4 +1,4 @@
-# LABOKit v1.4 - **NEW** ⌀ Added VideoUpscaler
+# LABOKit v1.4 - NEW ⌀ Added VideoUpscaler ⌀ v2.0 (UPCOMING)
 
 <img width="1365" height="416" alt="Image" src="https://github.com/user-attachments/assets/f4ab1e1b-de1c-4a0f-a648-25b210f0ea4f" />
 
