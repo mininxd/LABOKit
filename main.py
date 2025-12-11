@@ -36,7 +36,7 @@ from PySide6.QtWidgets import (
     QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
     QListWidget, QListWidgetItem, QLabel, QPushButton, QFileDialog,
     QMessageBox, QProgressDialog, QFrame, QComboBox, QTabWidget,
-    QDialog, QPlainTextEdit, QSplashScreen
+    QDialog, QPlainTextEdit, QSplashScreen, QMenuBar, QSizePolicy
 )
 
 IMAGE_FILTER = (
@@ -164,12 +164,48 @@ class BgRemoverTab(QWidget):
         outer.addWidget(bot)
 
     def _create_box(self, title):
-        f = QFrame(); f.setFrameShape(QFrame.StyledPanel)
-        l = QVBoxLayout(f); l.addWidget(QLabel(title))
-        img = QLabel(); img.setAlignment(Qt.AlignCenter); img.setMinimumSize(QSize(200,200))
-        l.addWidget(img, 1); f.img_lbl = img
-        return f
+        f = QFrame()
+        f.setObjectName("PreviewFrame")
+        f.setFrameShape(QFrame.StyledPanel)
 
+        l = QVBoxLayout(f)
+        l.setContentsMargins(0, 0, 0, 0)
+        l.setSpacing(0)
+
+        lbl_title = QLabel(title)
+        lbl_title.setStyleSheet("border: none; background: transparent; color: #1c2333; font-weight: bold; padding: 6px 0 6px 8px;")
+        l.addWidget(lbl_title)
+
+        line = QFrame()
+        line.setFrameShape(QFrame.HLine)
+        line.setFrameShadow(QFrame.Sunken)
+        line.setStyleSheet("border: none; background-color: #b3bcd1; min-height: 1px; max-height: 1px;") 
+        l.addWidget(line)
+
+        content_widget = QWidget() 
+        content_widget.setStyleSheet("border: none; background: transparent;")
+        cl = QVBoxLayout(content_widget)
+        cl.setContentsMargins(0, 0, 0, 0)
+        
+        img = QLabel()
+        img.setAlignment(Qt.AlignCenter)
+        img.setMinimumSize(QSize(200, 200))
+        img.setObjectName("PreviewImage")
+        
+        cl.addWidget(img)
+        l.addWidget(content_widget, 1) 
+
+        f.img_lbl = img
+
+        f.setStyleSheet("""
+            #PreviewFrame {
+                border: 1px solid #b3bcd1; 
+                border-radius: 4px;        
+                background-color: #f7f9fc; 
+            }
+        """)
+        return f
+    
     def _init_running_text(self):
         for l in self.pixel_labels: l.setText(random.choice(RUNNING_VALUES) + "  •")
         self.timer = QTimer(self); self.timer.timeout.connect(self._update_text)
@@ -353,10 +389,46 @@ class UpscalerTab(QWidget):
         outer.addWidget(bot)
 
     def _create_box(self, title):
-        f = QFrame(); f.setFrameShape(QFrame.StyledPanel)
-        l = QVBoxLayout(f); l.addWidget(QLabel(title))
-        img = QLabel(); img.setAlignment(Qt.AlignCenter); img.setMinimumSize(QSize(200,200))
-        l.addWidget(img, 1); f.img_lbl = img
+        f = QFrame()
+        f.setObjectName("PreviewFrame")
+        f.setFrameShape(QFrame.StyledPanel)
+
+        l = QVBoxLayout(f)
+        l.setContentsMargins(0, 0, 0, 0)
+        l.setSpacing(0)
+
+        lbl_title = QLabel(title)
+        lbl_title.setStyleSheet("border: none; background: transparent; color: #1c2333; font-weight: bold; padding: 6px 0 6px 8px;")
+        l.addWidget(lbl_title)
+
+        line = QFrame()
+        line.setFrameShape(QFrame.HLine)
+        line.setFrameShadow(QFrame.Sunken)
+        line.setStyleSheet("border: none; background-color: #b3bcd1; min-height: 1px; max-height: 1px;") 
+        l.addWidget(line)
+
+        content_widget = QWidget() 
+        content_widget.setStyleSheet("border: none; background: transparent;")
+        cl = QVBoxLayout(content_widget)
+        cl.setContentsMargins(0, 0, 0, 0)
+        
+        img = QLabel()
+        img.setAlignment(Qt.AlignCenter)
+        img.setMinimumSize(QSize(200, 200))
+        img.setObjectName("PreviewImage")
+        
+        cl.addWidget(img)
+        l.addWidget(content_widget, 1) 
+
+        f.img_lbl = img
+
+        f.setStyleSheet("""
+            #PreviewFrame {
+                border: 1px solid #b3bcd1; 
+                border-radius: 4px;        
+                background-color: #f7f9fc; 
+            }
+        """)
         return f
 
     def _init_running_text(self):
@@ -507,6 +579,99 @@ class UpscalerTab(QWidget):
         QMessageBox.information(self, "Help – Upscaler", text)
         
 
+class CustomTitleBar(QWidget):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setFixedHeight(30)
+        self.parent_win = parent
+        self.pressing = False
+        self.start_pos = None
+
+        layout = QHBoxLayout(self)
+        layout.setContentsMargins(10, 0, 10, 0)
+        layout.setSpacing(8)
+
+        self.title_lbl = QLabel("LABOKit")
+        self.title_lbl.setStyleSheet("font-weight: bold; color: #333; border: none; background: transparent;")
+        self.title_lbl.setAttribute(Qt.WA_TransparentForMouseEvents)
+
+        self.menu_container = QWidget()
+        self.menu_container.setStyleSheet("background: transparent; border: none;") 
+        self.menu_layout = QHBoxLayout(self.menu_container)
+        self.menu_layout.setContentsMargins(0, 0, 0, 0)
+        self.menu_layout.setSpacing(5)
+
+        btn_size = 18
+        radius = btn_size // 2
+        
+        btn_style = f"""
+            QPushButton {{
+                background-color: #808080;
+                border: none;
+                border-radius: {radius}px;
+                font-family: "Arial", "Segoe UI", sans-serif; 
+                font-size: 13px;
+                font-weight: 450;
+                color: white;
+                margin: 0px;
+                padding: 0px; 
+                padding-bottom: 2px;
+            }}
+            QPushButton:hover {{
+                background-color: #666666;
+            }}
+            QPushButton:pressed {{
+                background-color: #444444;
+            }}
+        """
+
+        self.btn_min = QPushButton("−") 
+        self.btn_min.setFixedSize(btn_size, btn_size)
+        self.btn_min.setStyleSheet(btn_style)
+        self.btn_min.clicked.connect(self.minimize_window)
+
+        self.btn_close = QPushButton("×") 
+        self.btn_close.setFixedSize(btn_size, btn_size)
+        self.btn_close.setStyleSheet(btn_style)
+        self.btn_close.clicked.connect(self.close_window)
+
+        layout.addWidget(self.title_lbl)
+        layout.addWidget(self.menu_container)
+        layout.addStretch(1) 
+        layout.addWidget(self.btn_min)
+        layout.addWidget(self.btn_close)
+
+        self.setStyleSheet("""
+            CustomTitleBar {
+                background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                                            stop:0 #f0f0f0, 
+                                            stop:0.5 #dcdcdc,
+                                            stop:1 #b0b0b0);
+                border: none;
+            }
+        """)
+
+    def mousePressEvent(self, event):
+        if event.button() == Qt.LeftButton:
+            self.pressing = True
+            self.start_pos = event.globalPosition().toPoint() - self.parent_win.frameGeometry().topLeft()
+            event.accept()
+
+    def mouseMoveEvent(self, event):
+        if self.pressing and event.buttons() & Qt.LeftButton:
+            self.parent_win.move(event.globalPosition().toPoint() - self.start_pos)
+            event.accept()
+
+    def mouseReleaseEvent(self, event):
+        self.pressing = False
+
+    # --- Logika Tombol ---
+    def minimize_window(self):
+        self.parent_win.showMinimized()
+
+    def close_window(self):
+        self.parent_win.close()
+
 # ==========================================
 # MAIN WINDOW
 # ==========================================
@@ -515,12 +680,27 @@ class LABOKitMainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("LABOKit")
+        self.setFixedSize(1200, 800)
+        self.setWindowFlags(Qt.FramelessWindowHint)
+        
+        self.central_container = QWidget()
+        self.setCentralWidget(self.central_container)
+        
+        self.main_layout = QVBoxLayout(self.central_container)
+        self.main_layout.setContentsMargins(0, 0, 0, 0)
+        self.main_layout.setSpacing(0)
+
+        self.custom_title_bar = CustomTitleBar(self)
+        self.main_layout.addWidget(self.custom_title_bar)
+
         self.tabs = QTabWidget()
         self.bg_tab = BgRemoverTab(self)
         self.up_tab = UpscalerTab(self)
         self.tabs.addTab(self.bg_tab, "BG Remover")
         self.tabs.addTab(self.up_tab, "Upscaler")
-        self.setCentralWidget(self.tabs)
+        
+        self.main_layout.addWidget(self.tabs)
+
         self.loaded_plugins = []
         self._setup_menu()
         self._load_plugins()
@@ -574,10 +754,46 @@ class LABOKitMainWindow(QMainWindow):
             except Exception as e: QMessageBox.warning(self, "Error", str(e))
 
     def open_url(self, url): QDesktopServices.openUrl(QUrl(url))
-
     def _setup_menu(self):
-        mb = self.menuBar()
+        mb = QMenuBar()
+        mb.setStyleSheet("""
+            QMenuBar { 
+                background: transparent; 
+                border: none;
+            }
+            QMenuBar::item { 
+                background: transparent; 
+                color: #333; 
+                padding: 4px 8px;
+                border-radius: 4px;
+            }
+            QMenuBar::item:selected { 
+                background-color: rgba(0, 0, 0, 0.1); /* Efek hover halus (abu transparan) */
+                color: #000; 
+            }
+            
+            /* INI YANG PENTING: Style untuk Dropdown Menu */
+            QMenu {
+                background-color: #f7f9fc; /* Warna solid, JANGAN transparent */
+                border: 1px solid #b3bcd1;
+                border-radius: 4px;
+                padding: 4px;
+            }
+            QMenu::item {
+                padding: 4px 24px 4px 10px; /* Padding kanan besar buat space shortcut/arrow */
+                color: #1c2333;
+                border-radius: 3px;
+                background: transparent;
+            }
+            QMenu::item:selected {
+                background-color: #cfe2ff; /* Warna highlight biru muda */
+                color: #101522;
+            }
+        """)
         
+        self.custom_title_bar.menu_layout.addWidget(mb)
+
+        # (Bagian bawah ini sama persis, copy-paste saja biar aman)
         file = mb.addMenu("&File")
         file.addAction("Add Images...", self.add_images_curr)
         file.addAction("Change Output Folder...", self.change_out_curr)
