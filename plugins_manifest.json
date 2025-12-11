@@ -1,0 +1,27 @@
+{
+    "Dithering FX": {
+        "version": "2.0",
+        "url_encoded": "-", 
+        "changelog": "1. Improved Dithering result, adding more options and custom color choices.\n2. Now you can generate multiple outputs from the same image.\n3. Downscaling feature to make the effect stronger & consistent on high-res images.\n4. Fixed change output folder, now you can do custom output folder.\n5. Optimized Live Preview."
+    },
+    "Quick Vector": {
+        "version": "1.1",
+        "url_encoded": "-",
+        "changelog": "1. Updated Help Section for How to Use.\n"
+    },
+    "Image Converter": {
+        "version": "1.1",
+        "url_encoded": "-",
+        "changelog": "1. Updated Help Section for How to Use.\n"
+    },
+    "Video Upscaler": {
+        "version": "1.1",
+        "url_encoded": "-",
+        "changelog": "1. Updated Help Section for How to Use.\n"
+    },
+    "ONNX Loader": {
+        "version": "1.0",
+        "url_encoded": "-",
+        "changelog": "- Initial Release"
+    }
+}

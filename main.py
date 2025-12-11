@@ -275,11 +275,11 @@ class BgRemoverTab(QWidget):
 
     def proc_sel(self):
         sel = [i.data(Qt.UserRole) for i in self.list_w.selectedItems()]
-        if not sel: return QMessageBox.info(self, "Info", "Select images first.")
+        if not sel: return QMessageBox.information(self, "Info", "Select images first.")
         self._run(sel)
 
     def proc_all(self):
-        if not self.image_paths: return QMessageBox.info(self, "Info", "Add images first.")
+        if not self.image_paths: return QMessageBox.information(self, "Info", "Add images first.")
         self._run(self.image_paths)
 
     def _run(self, paths):
@@ -498,11 +498,11 @@ class UpscalerTab(QWidget):
 
     def proc_sel(self):
         sel = [i.data(Qt.UserRole) for i in self.list_w.selectedItems()]
-        if not sel: return QMessageBox.info(self, "Info", "Select images first.")
+        if not sel: return QMessageBox.information(self, "Info", "Select images first.")
         self._run(sel)
 
     def proc_all(self):
-        if not self.image_paths: return QMessageBox.info(self, "Info", "Add images first.")
+        if not self.image_paths: return QMessageBox.information(self, "Info", "Add images first.")
         self._run(self.image_paths)
 
     def _run(self, paths):
@@ -665,7 +665,6 @@ class CustomTitleBar(QWidget):
     def mouseReleaseEvent(self, event):
         self.pressing = False
 
-    # --- Logika Tombol ---
     def minimize_window(self):
         self.parent_win.showMinimized()
 
@@ -680,13 +679,45 @@ class LABOKitMainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("LABOKit")
-        self.setFixedSize(1200, 800)
+
+        screen = QApplication.primaryScreen().geometry()
+        screen_height = screen.height()
+        
+        base_height_ref = 1440
+        base_w_ref = 1200
+        base_h_ref = 800
+        
+        scale_factor = screen_height / base_height_ref
+        
+        new_w = int(base_w_ref * scale_factor)
+        new_h = int(base_h_ref * scale_factor)
+        
+        final_w = max(900, new_w) 
+        final_h = max(600, new_h)
+        
+        self.setFixedSize(final_w, final_h)
+
         self.setWindowFlags(Qt.FramelessWindowHint)
         
         self.central_container = QWidget()
         self.setCentralWidget(self.central_container)
         
-        self.main_layout = QVBoxLayout(self.central_container)
+        self.outer_layout = QVBoxLayout(self.central_container)
+        self.outer_layout.setContentsMargins(0, 0, 0, 0)
+        
+        self.main_frame = QFrame()
+        self.main_frame.setObjectName("MainFrame")
+        self.main_frame.setStyleSheet("""
+            #MainFrame {
+                background-color: #e9edf5;
+                border-radius: 10px; 
+                border: 1px solid #999; 
+            }
+        """)
+        
+        self.outer_layout.addWidget(self.main_frame)
+        
+        self.main_layout = QVBoxLayout(self.main_frame)
         self.main_layout.setContentsMargins(0, 0, 0, 0)
         self.main_layout.setSpacing(0)
 
@@ -700,11 +731,12 @@ class LABOKitMainWindow(QMainWindow):
         self.tabs.addTab(self.up_tab, "Upscaler")
         
         self.main_layout.addWidget(self.tabs)
+        self.main_layout.addSpacing(5) 
 
         self.loaded_plugins = []
         self._setup_menu()
         self._load_plugins()
-
+        
     def _load_plugins(self):
         if not PLUGIN_DIR.exists(): PLUGIN_DIR.mkdir(parents=True, exist_ok=True)
         
@@ -793,7 +825,6 @@ class LABOKitMainWindow(QMainWindow):
         
         self.custom_title_bar.menu_layout.addWidget(mb)
 
-        # (Bagian bawah ini sama persis, copy-paste saja biar aman)
         file = mb.addMenu("&File")
         file.addAction("Add Images...", self.add_images_curr)
         file.addAction("Change Output Folder...", self.change_out_curr)
