@@ -25,6 +25,7 @@
 * **ONNX Loader Plugin:** Load your own custom `.onnx` upscaling models. LABOKit now serves as a GUI for your personal models.
 * **UI Overhaul:** Significant improvements to the overall user interface.
 * **App Update Notifications & Plugin Auto-Updates:** You will receive a notification when a new version of LABOKit is available. Additionally, any installed plugins will update automatically, eliminating the need to redownload them manually.
+* **Lightweight Upscaling Models:** Added lightweight upscaling models, ensuring smooth performance on Low-end PC.
 
 ## 📥 Download (Portable Version)
 
@@ -103,7 +104,8 @@ LABOKit is free and open-source. By purchasing this bundle (Pay What You Want), 
 
 *By supporting, you get the `LABOKit_Advanced_Plugins.zip` containing all 3 plugins above.*
 
-## Installation
+## Developer Setup (Source Code)
+> **⚠️ Note:** You do NOT need to follow these steps if you just want to use the app. Please download the ready-to-use .exe from the **[Releases](https://github.com/wagakano/LABOKit/releases)** Page.
 
 ### Prerequisites
 * Python 3.10+

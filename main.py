@@ -5,8 +5,15 @@ import subprocess
 import importlib.util
 import importlib.machinery
 import shutil
+import json
+import urllib.request
+import base64
 from pathlib import Path
 from PIL import Image
+
+APP_VERSION = "2.0.0"
+APP_UPDATE_URL = "https://raw.githubusercontent.com/wagakano/LABOKit/main_windows/latest_version.json"
+PLUGIN_MANIFEST_URL = "https://raw.githubusercontent.com/wagakano/LABOKit/main_windows/plugins_manifest.json"
 
 # --- PATH & ASSETS SETUP ---
 # 1. Internal Path (Source files inside EXE/Build)
@@ -30,8 +37,8 @@ ICON_PATH = INTERNAL_DIR / "labokit.ico"
 remove = None
 
 # --- IMPORTS ---
-from PySide6.QtCore import Qt, QSize, QTimer, QUrl
-from PySide6.QtGui import QAction, QPixmap, QFont, QIcon, QDesktopServices
+from PySide6.QtCore import Qt, QSize, QTimer, QUrl, QRectF, QThread, Signal
+from PySide6.QtGui import QAction, QPixmap, QFont, QIcon, QDesktopServices, QPainterPath, QRegion, QColor, QPalette
 from PySide6.QtWidgets import (
     QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
     QListWidget, QListWidgetItem, QLabel, QPushButton, QFileDialog,
@@ -671,6 +678,67 @@ class CustomTitleBar(QWidget):
     def close_window(self):
         self.parent_win.close()
 
+# --- UPDATE WORKERS ---
+
+class AppUpdateChecker(QThread):
+    found_update = Signal(str, str, str) # version, url, changelog
+
+    def run(self):
+        try:
+            # Cek App Update
+            with urllib.request.urlopen(APP_UPDATE_URL) as url:
+                data = json.loads(url.read().decode())
+                remote_ver = data.get("version", "0.0.0")
+                # Simple string comparison
+                if remote_ver > APP_VERSION:
+                    self.found_update.emit(remote_ver, data.get("url", ""), data.get("changelog", ""))
+        except Exception as e:
+            print(f"App Update Check Failed: {e}")
+
+class PluginUpdater(QThread):
+    # Signal: ID Plugin, Versi Baru, Changelog, Link Download
+    update_found = Signal(str, str, str, str) 
+
+    def run(self):
+        try:
+            if not PLUGIN_DIR.exists(): return
+            
+            # 1. Fetch Manifest
+            with urllib.request.urlopen(PLUGIN_MANIFEST_URL) as url:
+                remote_data = json.loads(url.read().decode())
+
+            # 2. Cek setiap plugin yang terinstall lokal
+            for kit_file in PLUGIN_DIR.glob("*.kit"):
+                plugin_id = kit_file.stem 
+                
+                if plugin_id in remote_data:
+                    remote_info = remote_data[plugin_id]
+                    
+                    # Ambil versi lokal
+                    local_ver = self.get_local_version(kit_file)
+                    remote_ver = remote_info.get("version", "1.0")
+                    
+                    # Bandingkan
+                    if remote_ver > local_ver:
+                        enc_url = remote_info.get("url_encoded", "")
+                        try:
+                            if enc_url == "-" or not enc_url: continue
+                            real_url = base64.b64decode(enc_url).decode("utf-8")
+                            self.update_found.emit(plugin_id, remote_ver, remote_info.get("changelog", ""), real_url)
+                        except: pass
+
+        except Exception as e:
+            print(f"Plugin Update Check Failed: {e}")
+
+    def get_local_version(self, path):
+        try:
+            spec = importlib.util.spec_from_file_location("temp_module", str(path))
+            mod = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(mod)
+            ver = getattr(mod, "PLUGIN_VERSION", None)
+            return str(ver) if ver else "1.0"
+        except: return "1.0"
+
 # ==========================================
 # MAIN WINDOW
 # ==========================================
@@ -679,24 +747,19 @@ class LABOKitMainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("LABOKit")
-
+        
         screen = QApplication.primaryScreen().geometry()
         screen_height = screen.height()
-        
         base_height_ref = 1440
         base_w_ref = 1200
         base_h_ref = 800
-        
         scale_factor = screen_height / base_height_ref
-        
         new_w = int(base_w_ref * scale_factor)
         new_h = int(base_h_ref * scale_factor)
-        
         final_w = max(900, new_w) 
         final_h = max(600, new_h)
-        
         self.setFixedSize(final_w, final_h)
-
+        
         self.setWindowFlags(Qt.FramelessWindowHint)
         
         self.central_container = QWidget()
@@ -736,7 +799,17 @@ class LABOKitMainWindow(QMainWindow):
         self.loaded_plugins = []
         self._setup_menu()
         self._load_plugins()
+        self.check_app_updates()
+        self.check_plugin_updates()
+
+    def resizeEvent(self, event):
+        path = QPainterPath()
+        path.addRoundedRect(QRectF(self.rect()), 10, 10)
         
+        region = QRegion(path.toFillPolygon().toPolygon())
+        self.setMask(region)
+        
+        super().resizeEvent(event)
     def _load_plugins(self):
         if not PLUGIN_DIR.exists(): PLUGIN_DIR.mkdir(parents=True, exist_ok=True)
         
@@ -800,25 +873,24 @@ class LABOKitMainWindow(QMainWindow):
                 border-radius: 4px;
             }
             QMenuBar::item:selected { 
-                background-color: rgba(0, 0, 0, 0.1); /* Efek hover halus (abu transparan) */
+                background-color: rgba(0, 0, 0, 0.1);
                 color: #000; 
             }
             
-            /* INI YANG PENTING: Style untuk Dropdown Menu */
             QMenu {
-                background-color: #f7f9fc; /* Warna solid, JANGAN transparent */
+                background-color: #f7f9fc; 
                 border: 1px solid #b3bcd1;
                 border-radius: 4px;
                 padding: 4px;
             }
             QMenu::item {
-                padding: 4px 24px 4px 10px; /* Padding kanan besar buat space shortcut/arrow */
+                padding: 4px 24px 4px 10px; 
                 color: #1c2333;
                 border-radius: 3px;
                 background: transparent;
             }
             QMenu::item:selected {
-                background-color: #cfe2ff; /* Warna highlight biru muda */
+                background-color: #cfe2ff;
                 color: #101522;
             }
         """)
@@ -863,6 +935,48 @@ class LABOKitMainWindow(QMainWindow):
         dlg = QDialog(self); dlg.setWindowTitle("NOTICE"); dlg.resize(600,400)
         lay = QVBoxLayout(dlg); t = QPlainTextEdit(p.read_text(encoding="utf-8")); t.setReadOnly(True)
         t.setFont(QFont("Consolas",9)); lay.addWidget(t); dlg.exec()
+
+    def check_app_updates(self):
+        self.app_checker = AppUpdateChecker()
+        self.app_checker.found_update.connect(self.show_app_update_dialog)
+        self.app_checker.start()
+
+    def show_app_update_dialog(self, new_ver, url, log):
+        msg = QMessageBox(self)
+        msg.setWindowTitle("Update Available!")
+        msg.setText(f"<b>New version {new_ver} is available!</b>")
+        msg.setInformativeText(f"Current: v{APP_VERSION}\n\n<b>What's New:</b>\n{log}")
+        msg.setIcon(QMessageBox.Information)
+        btn_download = msg.addButton("Download Now", QMessageBox.AcceptRole)
+        msg.addButton("Later", QMessageBox.RejectRole)
+        msg.exec()
+        if msg.clickedButton() == btn_download:
+            QDesktopServices.openUrl(QUrl(url))
+
+    def check_plugin_updates(self):
+        self.plugin_updater = PluginUpdater()
+        self.plugin_updater.update_found.connect(self.download_and_install_plugin)
+        self.plugin_updater.start()
+
+    def download_and_install_plugin(self, name, new_ver, log, url):
+        try:
+            prog = QProgressDialog(f"Auto-updating {name} to v{new_ver}...", None, 0, 0, self)
+            prog.setWindowModality(Qt.WindowModal)
+            prog.setStyleSheet("QProgressDialog { background-color: #f5f7fb; }")
+            prog.show()
+            QApplication.processEvents()
+            
+            target_file = PLUGIN_DIR / f"{name}.kit"
+            with urllib.request.urlopen(url) as response, open(target_file, 'wb') as out_file:
+                shutil.copyfileobj(response, out_file)
+            
+            prog.close()
+            
+            QMessageBox.information(self, "Plugin Updated", f"<b>{name}</b> has been auto-updated to v{new_ver}!\n\nChangelog:\n{log}")
+            self._load_plugins() # Reload
+            
+        except Exception as e:
+            print(f"Auto-update failed for {name}: {e}")
 
 def main():
     app = QApplication(sys.argv)
