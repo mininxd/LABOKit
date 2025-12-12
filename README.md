@@ -25,7 +25,7 @@
 * **ONNX Loader Plugin:** Load your own custom `.onnx` upscaling models. LABOKit now serves as a GUI for your personal models.
 * **UI Overhaul:** Significant improvements to the overall user interface.
 * **App Update Notifications & Plugin Auto-Updates:** You will receive a notification when a new version of LABOKit is available. Additionally, any installed plugins will update automatically, eliminating the need to redownload them manually.
-* **Lightweight Upscaling Models:** Added lightweight upscaling models, ensuring smooth performance on Low-end PC.
+* **Lightweight Upscaling Models:** Added lightweight upscaling models, ensuring smooth performance on Low-end PC (For Non-Vulkan GPU).
 
 ## 📥 Download (Portable Version)
 
