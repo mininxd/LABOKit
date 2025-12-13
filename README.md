@@ -19,13 +19,21 @@
 <img width="1132" height="476" alt="Image" src="https://github.com/user-attachments/assets/de3e61d1-d1b8-419f-9e70-94a95c63830d" />
 
 ## What's New in v2.0 (UPCOMING)
+**Release Date:** 16 December 2025
 
-* **ImageLAB (New Feature):** A built-in image editor to add effects like Pattern Overlay, Advanced Gradient Map, Partial Color, and Artifact Glitch.
+* **ImageLAB (New Feature):** A built-in image editor to add effects like Pattern Overlay, Partial Color, and Artifact Glitch.
 * **Dithering FX Update:** Improved dithering results, refreshed UI, and more configuration options.
+* **Quick Vector Update:** Added Zoom feature to inspect the details.
 * **ONNX Loader Plugin:** Load your own custom `.onnx` upscaling models. LABOKit now serves as a GUI for your personal models.
 * **UI Overhaul:** Significant improvements to the overall user interface.
 * **App Update Notifications & Plugin Auto-Updates:** You will receive a notification when a new version of LABOKit is available. Additionally, any installed plugins will update automatically, eliminating the need to redownload them manually.
 * **Lightweight Upscaling Models:** Added lightweight upscaling models, ensuring smooth performance on Low-end PC (For Non-Vulkan GPU).
+
+<img width="1220" height="824" alt="Image" src="https://github.com/user-attachments/assets/e81a883e-1717-44b6-b6f0-01d487c2c131" />
+
+<img width="1213" height="816" alt="Image" src="https://github.com/user-attachments/assets/d060263c-a7f8-4d3f-9463-fafcdade7ecf" />
+
+<img width="1221" height="827" alt="Image" src="https://github.com/user-attachments/assets/1c40365f-c567-4273-8c5a-f1707329bfcb" />
 
 ## 📥 Download (Portable Version)
 
