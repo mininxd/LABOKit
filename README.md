@@ -75,6 +75,7 @@ Upscale video files significantly using the power of **Real-ESRGAN** and **FFmpe
 <img width="1134" height="467" alt="VideoUpscaler" src="https://github.com/user-attachments/assets/d327ebd1-9a5c-444d-8328-715bfe11f045" />
 
 ### 2. ONNX Loader
+**File:** **[ONNXLoader.kit](https://github.com/wagakano/LABOKit/releases)**
 **Status:** Released
 
 A bridge for advanced users. Allows you to load external `.onnx` Upscaler models into LABOKit's interface, making it easy to test and use custom models found online.
@@ -91,7 +92,7 @@ Turn your raster images (JPG/PNG/BMP) into scalable vector graphics (SVG) instan
 
 ### 2. Dithering FX
 Give your images a stunning retro aesthetic. Apply old-school shading and color palettes inspired by vintage hardware. (Batch-able!)
-* **Styles:** GameBoy (Classic/Pocket), Macintosh 1-Bit, Cyberpunk, and Halftone.
+* **Styles:** GameBoy (Classic/Pocket), Cyberpunk, and Halftone.
 * **Algorithms:** Floyd-Steinberg, Bayer Matrix (Ordered), and Noise.
 * **STEINS;GATE Special:** Unique "Glitch" animation on the World Line Meter.
 
