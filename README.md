@@ -1,4 +1,4 @@
-# LABOKit v2.0
+# LABOKit v1.4 ⌀ v2.0 (UPCOMING 16  DEC)
 
 <img width="1365" height="416" alt="Banner" src="https://github.com/user-attachments/assets/f4ab1e1b-de1c-4a0f-a648-25b210f0ea4f" />
 
