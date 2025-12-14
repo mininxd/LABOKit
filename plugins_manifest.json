@@ -10,9 +10,9 @@
         "changelog": "1. Updated Help Section for How to Use.\n2. Added Zoom Preview to inspect pixel details.\n"
     },
     "Image Converter": {
-        "version": "1.1",
+        "version": "1.5",
         "url_encoded": "-",
-        "changelog": "1. Updated Help Section for How to Use.\n"
+        "changelog": "1. Updated Help Section for How to Use.\n2. PNG > JPG Background Bug Fixed.\n"
     },
     "Video Upscaler": {
         "version": "1.1",
