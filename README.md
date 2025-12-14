@@ -27,7 +27,7 @@
 * **ONNX Loader Plugin:** Load your own custom `.onnx` upscaling models. LABOKit now serves as a GUI for your personal models.
 * **UI Overhaul:** Significant improvements to the overall user interface for a cleaner look.
 * **Auto-Updates:** Get notified when a new version of LABOKit is available. Plus, installed plugins now **update automatically**, eliminating manual redownloads.
-* ** Plugin Improvements:**
+* **Plugin Improvements:**
     * **Dithering FX:** Refreshed UI, improved dithering results, and added more configuration options.
     * **Quick Vector:** Added **Zoom** feature to inspect vector details.
     * **Image Converter:** Fixed Transparency Glitch when converting PNG to JPG.
