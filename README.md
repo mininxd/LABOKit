@@ -22,16 +22,16 @@
 ## What's New in v2.0
 **Release Date:** 16 December 2025
 
-* ** New Feature: ImageLAB:** A built-in image editor playground! Add effects like Pattern Overlay, Partial Color, Artifact Glitch, and Randomizer to your images.
-* ** CPU-Friendly Upscaling:** Added `realesr-general-x4v3` model. This allows upscaling on computers *without* Vulkan GPUs (Low-end PC friendly).
-* ** ONNX Loader Plugin:** Load your own custom `.onnx` upscaling models. LABOKit now serves as a GUI for your personal models.
-* ** UI Overhaul:** Significant improvements to the overall user interface for a cleaner look.
-* ** Auto-Updates:** Get notified when a new version of LABOKit is available. Plus, installed plugins now **update automatically**, eliminating manual redownloads.
+* **New Feature: ImageLAB:** A built-in image editor playground! Add effects like Pattern Overlay, Partial Color, Artifact Glitch, and Randomizer to your images.
+* **CPU-Friendly Upscaling:** Added `realesr-general-x4v3` model. This allows upscaling on computers *without* Vulkan GPUs (Low-end PC friendly).
+* **ONNX Loader Plugin:** Load your own custom `.onnx` upscaling models. LABOKit now serves as a GUI for your personal models.
+* **UI Overhaul:** Significant improvements to the overall user interface for a cleaner look.
+* **Auto-Updates:** Get notified when a new version of LABOKit is available. Plus, installed plugins now **update automatically**, eliminating manual redownloads.
 * ** Plugin Improvements:**
     * **Dithering FX:** Refreshed UI, improved dithering results, and added more configuration options.
     * **Quick Vector:** Added **Zoom** feature to inspect vector details.
     * **Image Converter:** Fixed Transparency Glitch when converting PNG to JPG.
-* ** General:** Minor bug fixes and performance improvements.
+* **General:** Minor bug fixes and performance improvements.
 
 <img width="1220" height="824" alt="v2_Screen1" src="https://github.com/user-attachments/assets/e81a883e-1717-44b6-b6f0-01d487c2c131" />
 <img width="1213" height="816" alt="v2_Screen2" src="https://github.com/user-attachments/assets/d060263c-a7f8-4d3f-9463-fafcdade7ecf" />
