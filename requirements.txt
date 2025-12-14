@@ -8,3 +8,7 @@ svgwrite
 onnxruntime
 requests
 packaging
+torch
+torchvision
+basicsr
+realesrgan

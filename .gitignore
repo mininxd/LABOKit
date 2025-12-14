@@ -10,7 +10,7 @@ build/
 dist/
 .vscode/
 .idea/
-realesrgan/
+realesrgan_ncnn/
 models/
 potrace/
 plugins/

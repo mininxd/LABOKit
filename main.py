@@ -1,3 +1,15 @@
+# --- PATCH TORCHVISION BASICSR ---
+import torchvision.transforms.functional as F
+try:
+    from torchvision.transforms import functional_tensor
+except ImportError:
+    import sys
+    from types import ModuleType
+    
+    ft_module = ModuleType('torchvision.transforms.functional_tensor')
+    ft_module.rgb_to_grayscale = F.rgb_to_grayscale
+    sys.modules['torchvision.transforms.functional_tensor'] = ft_module
+
 import sys
 import os
 import random
@@ -11,9 +23,23 @@ import base64
 from pathlib import Path
 from PIL import Image
 
+# --- IMPORT ENGINE AI  ---
+try:
+    import torch
+    import cv2
+    import numpy as np
+    from basicsr.archs.srvgg_arch import SRVGGNetCompact 
+    from realesrgan import RealESRGANer
+    HAS_TORCH = True
+except ImportError as e:
+    HAS_TORCH = False
+    print(f"Warning: AI Engine modules missing: {e}")
+
+# --- APP INFO ---
 APP_VERSION = "2.0.0"
 APP_UPDATE_URL = "https://raw.githubusercontent.com/wagakano/LABOKit/main_windows/latest_version.json"
 PLUGIN_MANIFEST_URL = "https://raw.githubusercontent.com/wagakano/LABOKit/main_windows/plugins_manifest.json"
+
 
 # --- PATH & ASSETS SETUP ---
 # 1. Internal Path (Source files inside EXE/Build)
@@ -51,6 +77,18 @@ IMAGE_FILTER = (
     "*.JPG *.JPEG *.PNG *.BMP *.TIF *.TIFF *.WEBP *.GIF)"
 )
 
+# --- IMPORT LIBRARY PYTORCH & REALESRGAN ---
+try:
+    import torch
+    from torch import nn
+    import numpy as np
+    import cv2
+    from realesrgan import RealESRGANer 
+    HAS_TORCH = True
+except ImportError as e:
+    HAS_TORCH = False
+    print(f"Warning: PyTorch/RealESRGAN modules not found: {e}")
+
 # --- RUNNING TEXT DATA (World Line Meter) ---
 RUNNING_VALUES = [
     "0.000000α", "0.134891α", "0.210317α", "0.295582α",
@@ -68,39 +106,46 @@ BG_PRESETS = {
 }
 DEFAULT_PRESET_NAME = "Standard"
 
-# --- SMART DEPLOYMENT (SILENT) ---
-def deploy_assets():
-    """Copy assets from EXE to AppData on first run (Silent Mode)"""
-    
-    # 1. Models
-    if not MODEL_DIR.exists():
-        try:
-            shutil.copytree(INTERNAL_DIR / "models", MODEL_DIR)
-        except Exception as e: print(f"Model deploy error: {e}")
+# --- SMART DEPLOYMENT (AUTO-UPDATE ASSETS) ---
+def sync_folder(src_dir, dst_dir):
+    if not src_dir.exists(): return
 
-    # 2. Real-ESRGAN
-    if not REALESRGAN_DIR.exists():
-        try:
-            shutil.copytree(INTERNAL_DIR / "realesrgan", REALESRGAN_DIR)
-        except Exception as e: print(f"Tool deploy error: {e}")
+    dst_dir.mkdir(parents=True, exist_ok=True)
+
+    for item in src_dir.iterdir():
+        dst_item = dst_dir / item.name
+
+        if item.is_dir():
+            sync_folder(item, dst_item)
+        else:
+            if not dst_item.exists():
+                try:
+                    shutil.copy2(item, dst_item)
+                    print(f"[Update] New asset deployed: {item.name}")
+                except Exception as e:
+                    print(f"Failed to deploy {item.name}: {e}")
+
+def deploy_assets():
+    print("Checking assets...")
+
+    # 1. Models (U2Net)
+    sync_folder(INTERNAL_DIR / "models", MODEL_DIR)
+
+    # 2. Real-ESRGAN (Exe & Models)
+    sync_folder(INTERNAL_DIR / "realesrgan_ncnn", REALESRGAN_DIR)
 
     # 3. FFMPEG
-    if not FFMPEG_DIR.exists():
-        try:
-            shutil.copytree(INTERNAL_DIR / "ffmpeg", FFMPEG_DIR)
-        except Exception as e: print(f"FFmpeg deploy error: {e}")
+    sync_folder(INTERNAL_DIR / "ffmpeg", FFMPEG_DIR)
 
-    # 4. Plugins Folder
-    if not PLUGIN_DIR.exists():
+    # 4. Plugins Folder (Default Plugins)
+    internal_plugins = INTERNAL_DIR / "plugins"
+    if internal_plugins.exists():
         PLUGIN_DIR.mkdir(exist_ok=True)
-        # Copy built-in plugins if available
-        internal_plugins = INTERNAL_DIR / "plugins"
-        if internal_plugins.exists():
-            for item in internal_plugins.glob("*.kit"):
-                try: shutil.copy2(item, PLUGIN_DIR / item.name)
+        for item in internal_plugins.glob("*.kit"):
+            dst_item = PLUGIN_DIR / item.name
+            if not dst_item.exists():
+                try: shutil.copy2(item, dst_item)
                 except: pass
-
-
 
 # ==========================================
 # TABS
@@ -376,7 +421,12 @@ class UpscalerTab(QWidget):
         opt = QHBoxLayout()
         opt.addWidget(QLabel("Scale:")); self.combo_s = QComboBox(); self.combo_s.addItems(["2x", "4x"]); self.combo_s.setCurrentText("4x")
         opt.addWidget(self.combo_s)
-        opt.addWidget(QLabel("Model:")); self.combo_m = QComboBox(); self.combo_m.addItems(["realesrgan-x4plus", "realesrgan-x4plus-anime"])
+        opt.addWidget(QLabel("Model:")); self.combo_m = QComboBox()
+        self.combo_m.addItems([
+            "realesrgan-x4plus", 
+            "realesrgan-x4plus-anime", 
+            "realesr-general-x4v3.pth"
+        ])
         opt.addWidget(self.combo_m); right.addLayout(opt)
 
         # Buttons
@@ -394,6 +444,40 @@ class UpscalerTab(QWidget):
         for _ in range(10):
             l = QLabel("0.000000α"); l.setFont(font); self.pixel_labels.append(l); bl.addWidget(l)
         outer.addWidget(bot)
+
+    def run_python_inference(self, img_path, out_path, model_name):
+        if not HAS_TORCH:
+            QMessageBox.critical(self, "Error", "(torch/basicsr/realesrgan) is not ready.")
+            return False
+
+        try:
+            model_path = REALESRGAN_DIR / "models" / model_name 
+            if not model_path.exists():
+                model_path = MODEL_DIR / model_name
+                if not model_path.exists(): return False
+
+            model = SRVGGNetCompact(num_in_ch=3, num_out_ch=3, num_feat=64, num_conv=32, upscale=4, act_type='prelu')
+            
+            upsampler = RealESRGANer(
+                scale=4,
+                model_path=str(model_path),
+                model=model,
+                tile=400,       
+                tile_pad=10,
+                pre_pad=0,
+                half=False,   
+                gpu_id=None
+            )
+
+            img = cv2.imread(str(img_path), cv2.IMREAD_UNCHANGED)
+            output, _ = upsampler.enhance(img, outscale=4)
+            cv2.imwrite(str(out_path), output)
+            return True
+
+        except Exception as e:
+            print(f"Error: {e}")
+            import traceback; traceback.print_exc()
+            return False
 
     def _create_box(self, title):
         f = QFrame()
@@ -513,8 +597,11 @@ class UpscalerTab(QWidget):
         self._run(self.image_paths)
 
     def _run(self, paths):
-        if not REALESRGAN_EXE.exists():
-            return QMessageBox.warning(self, "Error", f"Executable not found at:\n{REALESRGAN_EXE}\nWait for install.")
+        model_name = self.combo_m.currentText()
+        is_python_mode = model_name.endswith(".pth")
+
+        if not is_python_mode and not REALESRGAN_EXE.exists():
+            return QMessageBox.warning(self, "Error", f"Executable not found at:\n{REALESRGAN_EXE}")
         
         out = self.ensure_out(paths[0])
         dlg = QProgressDialog("Upscaling...", "Cancel", 0, len(paths), self)
@@ -522,8 +609,7 @@ class UpscalerTab(QWidget):
         dlg.show()
         
         cnt = 0
-        target_scale = int(self.combo_s.currentText().replace("x",""))
-        model = self.combo_m.currentText()
+        target_scale = 4 # Default model scale
         
         for i, p in enumerate(paths):
             if dlg.wasCanceled(): break
@@ -531,32 +617,28 @@ class UpscalerTab(QWidget):
             QApplication.processEvents()
             
             try:
-                opath = out / f"{p.stem}_up{target_scale}x.png"
-                
-                exec_scale = 4 
-                
-                cmd = [
-                    str(REALESRGAN_EXE), 
-                    "-i", str(p), 
-                    "-o", str(opath), 
-                    "-n", model, 
-                    "-s", str(exec_scale)
-                ]
-                
-                flags = subprocess.CREATE_NO_WINDOW if sys.platform=="win32" else 0
-                
-                subprocess.run(cmd, capture_output=True, creationflags=flags, cwd=str(REALESRGAN_DIR))
-                
-                if target_scale == 2:
+                opath = out / f"{p.stem}_up4x.png"
+                success = False
 
-                    with Image.open(opath) as img:
-                        new_w = img.width // 2
-                        new_h = img.height // 2
-                        img = img.resize((new_w, new_h), Image.Resampling.LANCZOS)
-                        img.save(opath)
+                if is_python_mode:
+                    success = self.run_python_inference(p, opath, model_name)
+                
+                else:
+                    cmd = [
+                        str(REALESRGAN_EXE), 
+                        "-i", str(p), 
+                        "-o", str(opath), 
+                        "-n", model_name, 
+                        "-s", "4"
+                    ]
+                    flags = subprocess.CREATE_NO_WINDOW if sys.platform=="win32" else 0
+                    subprocess.run(cmd, capture_output=True, creationflags=flags, cwd=str(REALESRGAN_DIR))
+                    success = opath.exists()
 
-                self.output_map[p] = opath
-                cnt += 1
+                if success:
+                    self.output_map[p] = opath
+                    cnt += 1
+                    
             except Exception as e: 
                 print(f"Upscale Error: {e}")
             
