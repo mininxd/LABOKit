@@ -1,4 +1,4 @@
-# LABOKit ⌀ v2.0 
+# LABOKit ⌀ v2.0 [DOWNLOAD](https://github.com/wagakano/LABOKit?tab=readme-ov-file#-download-portable-version)
 
 <img width="1365" height="416" alt="Banner" src="https://github.com/user-attachments/assets/f4ab1e1b-de1c-4a0f-a648-25b210f0ea4f" />
 
@@ -19,7 +19,7 @@
 <img width="1200" height="800" alt="Image" src="https://github.com/user-attachments/assets/515b5725-dcde-4384-a91d-d56f8badfb49" />
 <img width="1200" height="800" alt="Image" src="https://github.com/user-attachments/assets/9566a831-61ea-4e3d-8237-2fbcb614ea51" />
 
-![Image](https://github.com/user-attachments/assets/a3172703-8422-46e2-86de-1a3ad3d4d0c9)
+![Image](https://github.com/user-attachments/assets/f38a6769-3242-4527-9863-790afc4c2c7b)
 
 ## What's New in v2.0
 * **New Feature: ImageLAB:** A built-in image editor playground! Add effects like Pattern Overlay, Partial Color, Artifact Glitch, and Randomizer to your images.
@@ -102,7 +102,7 @@ Give your images a stunning retro aesthetic. Apply old-school shading and color 
 
 * 🍌 If you're from r/steinsgate, you can get this Plugin for free! Just DM me your email (u/Lazy-Time-1807) and I'll send the .kit to you.
 
-![Image](https://github.com/user-attachments/assets/3e25ab5e-3b6f-443e-8094-94db836e03db)
+![Image](https://github.com/user-attachments/assets/d1492680-1d2e-40c0-a48a-1783d8431dc8)
 
 ### 3. Image Converter
 Batch convert WebP/JPG/PNG/ICO/BMP with quality control and transparency handling. (Batch-able!)
