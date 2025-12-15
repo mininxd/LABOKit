@@ -18,6 +18,7 @@
 
 <img width="1200" height="800" alt="Image" src="https://github.com/user-attachments/assets/515b5725-dcde-4384-a91d-d56f8badfb49" />
 <img width="1200" height="800" alt="Image" src="https://github.com/user-attachments/assets/9566a831-61ea-4e3d-8237-2fbcb614ea51" />
+
 ![Image](https://github.com/user-attachments/assets/a3172703-8422-46e2-86de-1a3ad3d4d0c9)
 
 ## What's New in v2.0
@@ -55,7 +56,7 @@ LABOKit capabilities can be extended using `.kit` plugins.
 
 ## Available Plugin
 ### 1. Video Upscaler
-**File:** **[VideoUpscaler.kit](https://github.com/wagakano/LABOKit/releases)**
+**File:** **[VideoUpscaler.kit](https://github.com/wagakano/LABOKit/releases/download/v1.4/VideoUpscaler.kit)**
 **Status:** Released
 
 Upscale video files significantly using the power of **Real-ESRGAN** and **FFmpeg**. This plugin automates the complex process of frame-by-frame AI enhancement.
@@ -70,7 +71,7 @@ Upscale video files significantly using the power of **Real-ESRGAN** and **FFmpe
 <img width="1200" height="800" alt="Image" src="https://github.com/user-attachments/assets/e130932c-84e3-4252-b81a-d8511eda4b21" />
 
 ### 2. ONNX Loader
-**File:** **[ONNXLoader.kit](https://github.com/wagakano/LABOKit/releases)**
+**File:** **[ONNXLoader.kit](https://github.com/wagakano/LABOKit/releases/download/v2.0/ONNXLoader.kit)**
 **Status:** Released
 
 A bridge for advanced users. Allows you to load external `.onnx` Upscaler models into LABOKit's interface, making it easy to test and use custom models found online.
