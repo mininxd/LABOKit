@@ -22,6 +22,8 @@ import urllib.request
 import base64
 import ssl
 import requests
+import svgwrite
+import cv2
 from pathlib import Path
 from PIL import Image
 from packaging import version
@@ -666,6 +668,7 @@ class UpscalerTab(QWidget):
             "<ul>"
             "<li><b>realesrgan-x4plus:</b> Best for photos, realistic textures, and general images.</li>"
             "<li><b>realesrgan-x4plus-anime:</b> Optimized for 2D illustration, anime, and line art (faster & sharper lines).</li>"
+            "<li><b>realesr-general-x4v3:</b> Optimized for Low-End/Non Vulkan/Integrated GPU PC.</li>"
             "</ul>"
             "<b>3. Scale Factor</b><br>"
             "Choose <b>4x</b> for maximum detail or <b>2x</b> for a quicker resize.<br><br>"

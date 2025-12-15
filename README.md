@@ -1,4 +1,4 @@
-# LABOKit v1.4 ⌀ v2.0 (UPCOMING 16  DEC)
+# LABOKit ⌀ v2.0 
 
 <img width="1365" height="416" alt="Banner" src="https://github.com/user-attachments/assets/f4ab1e1b-de1c-4a0f-a648-25b210f0ea4f" />
 
@@ -16,12 +16,11 @@
 * **Plugin System:** Extend functionality using `.kit` files.
 * **Offline Mode:** All processing is done locally on your machine.
 
-<img width="1134" height="473" alt="Screen1" src="https://github.com/user-attachments/assets/580a586d-b778-41c3-a8e5-8692be7f370b" />
-<img width="1132" height="476" alt="Screen2" src="https://github.com/user-attachments/assets/de3e61d1-d1b8-419f-9e70-94a95c63830d" />
+<img width="1200" height="800" alt="Image" src="https://github.com/user-attachments/assets/515b5725-dcde-4384-a91d-d56f8badfb49" />
+<img width="1200" height="800" alt="Image" src="https://github.com/user-attachments/assets/9566a831-61ea-4e3d-8237-2fbcb614ea51" />
+![Image](https://github.com/user-attachments/assets/a3172703-8422-46e2-86de-1a3ad3d4d0c9)
 
 ## What's New in v2.0
-**Release Date:** 16 December 2025
-
 * **New Feature: ImageLAB:** A built-in image editor playground! Add effects like Pattern Overlay, Partial Color, Artifact Glitch, and Randomizer to your images.
 * **CPU-Friendly Upscaling:** Added `realesr-general-x4v3` model. This allows upscaling on computers *without* Vulkan GPUs (Low-end PC friendly).
 * **ONNX Loader Plugin:** Load your own custom `.onnx` upscaling models. LABOKit now serves as a GUI for your personal models.
@@ -32,10 +31,6 @@
     * **Quick Vector:** Added **Zoom** feature to inspect vector details.
     * **Image Converter:** Fixed Transparency Glitch when converting PNG to JPG.
 * **General:** Minor bug fixes and performance improvements.
-
-<img width="1220" height="824" alt="v2_Screen1" src="https://github.com/user-attachments/assets/e81a883e-1717-44b6-b6f0-01d487c2c131" />
-<img width="1213" height="816" alt="v2_Screen2" src="https://github.com/user-attachments/assets/d060263c-a7f8-4d3f-9463-fafcdade7ecf" />
-<img width="1221" height="827" alt="v2_Screen3" src="https://github.com/user-attachments/assets/1c40365f-c567-4273-8c5a-f1707329bfcb" />
 
 ## 📥 Download (Portable Version)
 
@@ -72,13 +67,21 @@ Upscale video files significantly using the power of **Real-ESRGAN** and **FFmpe
 
 > **⚠️ Note:** This process is resource-intensive (GPU/CPU) and may take a long time depending on the video length and upscaling factor.
 
-<img width="1134" height="467" alt="VideoUpscaler" src="https://github.com/user-attachments/assets/d327ebd1-9a5c-444d-8328-715bfe11f045" />
+<img width="1200" height="800" alt="Image" src="https://github.com/user-attachments/assets/e130932c-84e3-4252-b81a-d8511eda4b21" />
 
 ### 2. ONNX Loader
 **File:** **[ONNXLoader.kit](https://github.com/wagakano/LABOKit/releases)**
 **Status:** Released
 
 A bridge for advanced users. Allows you to load external `.onnx` Upscaler models into LABOKit's interface, making it easy to test and use custom models found online.
+
+<img width="1200" height="800" alt="Image" src="https://github.com/user-attachments/assets/5c746637-00cc-4582-9a30-93e433a83ab0" />
+
+### 3. QR-Code Generator
+**File:** **[QRCode.kit](https://github.com/wagakano/LABOKit/releases)**
+**Status:** Work in Progress
+
+An batch-able QR-Code generator.
 
 ## Advanced Plugins
 Also you can get the **Advanced Plugin Bundle** by supporting the development (Donation/Pay What You Want).
@@ -88,24 +91,24 @@ Turn your raster images (JPG/PNG/BMP) into scalable vector graphics (SVG) instan
 * **Best for:** Logos, icons, signatures, and black & white line art.
 * **Features:** Threshold slider, smoothness control, real-time binary preview, Zoom inspection, and batch processing.
 
-<img width="1132" height="560" alt="QuickVector" src="https://github.com/user-attachments/assets/a13e5f55-bd17-40ca-841f-e1c001506a14" />
+<img width="1200" height="800" alt="Image" src="https://github.com/user-attachments/assets/68f4b04d-81e6-469c-b53f-aaf61122f2c6" />
 
 ### 2. Dithering FX
 Give your images a stunning retro aesthetic. Apply old-school shading and color palettes inspired by vintage hardware. (Batch-able!)
-* **Styles:** GameBoy (Classic/Pocket), Cyberpunk, and Halftone.
+* **Styles:** GameBoy (Classic/Pocket), Cyberpunk, Halftone, and Lines.
 * **Algorithms:** Floyd-Steinberg, Bayer Matrix (Ordered), and Noise.
 * **STEINS;GATE Special:** Unique "Glitch" animation on the World Line Meter.
 
 * 🍌 If you're from r/steinsgate, you can get this Plugin for free! Just DM me your email (u/Lazy-Time-1807) and I'll send the .kit to you.
 
-![Dithering FX Preview](gif/Dithering_FX_Preview.gif)
+![Image](https://github.com/user-attachments/assets/3e25ab5e-3b6f-443e-8094-94db836e03db)
 
 ### 3. Image Converter
 Batch convert WebP/JPG/PNG/ICO/BMP with quality control and transparency handling. (Batch-able!)
 * **Formats:** JPG, PNG, WEBP, BMP, ICO.
 * **Features:** Auto-flatten transparency, quality sliders for compression, and detailed file info inspector.
 
-<img width="1134" height="475" alt="ImageConverter" src="https://github.com/user-attachments/assets/c974205b-f711-4a89-ae20-9cbd2cfd3dad" />
+<img width="1200" height="800" alt="Image" src="https://github.com/user-attachments/assets/462317a8-f070-495a-b803-e0dc187d1fe0" />
 
 ## 💖 Support & Rewards
 **Donate & Get the Plugins**
