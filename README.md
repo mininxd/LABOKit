@@ -82,7 +82,7 @@ A bridge for advanced users. Allows you to load external `.onnx` Upscaler models
 **File:** **[QRCode.kit](https://github.com/wagakano/LABOKit/releases)**
 **Status:** Work in Progress
 
-An batch-able QR-Code generator.
+A batch-able QR-Code generator.
 
 ## Advanced Plugins
 Also you can get the **Advanced Plugin Bundle** by supporting the development (Donation/Pay What You Want).
