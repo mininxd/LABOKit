@@ -148,9 +148,11 @@ def deploy_assets():
         PLUGIN_DIR.mkdir(exist_ok=True)
         for item in internal_plugins.glob("*.kit"):
             dst_item = PLUGIN_DIR / item.name
-            if not dst_item.exists():
-                try: shutil.copy2(item, dst_item)
-                except: pass
+            try:
+                shutil.copy2(item, dst_item)
+                # print(f"[System] Built-in plugin deployed/updated: {item.name}")
+            except Exception as e:
+                print(f"Failed to deploy built-in {item.name}: {e}")
 
 # ==========================================
 # TABS
@@ -772,40 +774,33 @@ class AppUpdateChecker(QThread):
 
     def run(self):
         try:
-            # Cek App Update
             with urllib.request.urlopen(APP_UPDATE_URL) as url:
                 data = json.loads(url.read().decode())
                 remote_ver = data.get("version", "0.0.0")
-                # Simple string comparison
                 if remote_ver > APP_VERSION:
                     self.found_update.emit(remote_ver, data.get("url", ""), data.get("changelog", ""))
         except Exception as e:
             print(f"App Update Check Failed: {e}")
 
 class PluginUpdater(QThread):
-    # Signal: ID Plugin, Versi Baru, Changelog, Link Download
     update_found = Signal(str, str, str, str) 
 
     def run(self):
         try:
             if not PLUGIN_DIR.exists(): return
             
-            # 1. Fetch Manifest
             with urllib.request.urlopen(PLUGIN_MANIFEST_URL) as url:
                 remote_data = json.loads(url.read().decode())
 
-            # 2. Cek setiap plugin yang terinstall lokal
             for kit_file in PLUGIN_DIR.glob("*.kit"):
                 plugin_id = kit_file.stem 
                 
                 if plugin_id in remote_data:
                     remote_info = remote_data[plugin_id]
                     
-                    # Ambil versi lokal
                     local_ver = self.get_local_version(kit_file)
                     remote_ver = remote_info.get("version", "1.0")
                     
-                    # Bandingkan
                     if remote_ver > local_ver:
                         enc_url = remote_info.get("url_encoded", "")
                         try:
@@ -819,12 +814,20 @@ class PluginUpdater(QThread):
 
     def get_local_version(self, path):
         try:
-            spec = importlib.util.spec_from_file_location("temp_module", str(path))
-            mod = importlib.util.module_from_spec(spec)
-            spec.loader.exec_module(mod)
-            ver = getattr(mod, "PLUGIN_VERSION", None)
-            return str(ver) if ver else "1.0"
-        except: return "1.0"
+            with open(path, "r", encoding="utf-8", errors="ignore") as f:
+                content = f.read()
+            
+            import re
+            match = re.search(r'PLUGIN_VERSION\s*=\s*["\']([^"\']+)["\']', content)
+            
+            if match:
+                return match.group(1) 
+            
+            return "1.0" 
+            
+        except Exception as e:
+            # print(f"Version check error for {path.name}: {e}")
+            return "1.0"
 
 # ==========================================
 # MAIN WINDOW
