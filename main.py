@@ -20,8 +20,13 @@ import shutil
 import json
 import urllib.request
 import base64
+import ssl
+import requests
 from pathlib import Path
 from PIL import Image
+from packaging import version
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 # --- IMPORT ENGINE AI  ---
 try:
@@ -1049,13 +1054,25 @@ class LABOKitMainWindow(QMainWindow):
             QApplication.processEvents()
             
             target_file = PLUGIN_DIR / f"{name}.kit"
-            with urllib.request.urlopen(url) as response, open(target_file, 'wb') as out_file:
-                shutil.copyfileobj(response, out_file)
+            
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+                'Accept-Language': 'en-US,en;q=0.9',
+                'Connection': 'keep-alive',
+                'Upgrade-Insecure-Requests': '1'
+            }
+
+            with requests.get(url, headers=headers, stream=True, verify=False, timeout=30) as r:
+                r.raise_for_status() # Cek error 403/404/500
+                with open(target_file, 'wb') as f:
+                    for chunk in r.iter_content(chunk_size=8192): 
+                        if chunk: f.write(chunk)
             
             prog.close()
             
             QMessageBox.information(self, "Plugin Updated", f"<b>{name}</b> has been auto-updated to v{new_ver}!\n\nChangelog:\n{log}")
-            self._load_plugins() # Reload
+            self._load_plugins() 
             
         except Exception as e:
             print(f"Auto-update failed for {name}: {e}")
