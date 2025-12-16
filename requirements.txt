@@ -5,10 +5,11 @@ Pillow>=9.0.0
 numpy
 opencv-python-headless
 svgwrite
-onnxruntime
 requests
 packaging
 torch
 torchvision
 basicsr
 realesrgan
+qrcode[pil]
+urllib3
