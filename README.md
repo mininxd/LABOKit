@@ -43,7 +43,7 @@
 **(Linux)**
 * **[Source Code](https://github.com/wagakano/LABOKit/tree/main_linux)**
 
-> **⚠️ Hardware Requirement:**
+> ## ⚠️ Hardware Requirement
 > LABOKit processes everything locally using advanced AI models.
 > * **Standard Upscaling (x4plus):** Requires a **Vulkan-compatible GPU**.
 > * **CPU Upscaling (General x4v3):** Works on **any computer** (including non-Vulkan/Integrated Graphics).
