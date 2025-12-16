@@ -35,9 +35,13 @@
 
 ## 📥 Download (Portable Version)
 
-1.  Go to the **[Releases](https://github.com/wagakano/LABOKit/releases)** page.
-2.  Download the `LABOKit_v2.0.exe` (or latest version).
+**(windows)**
+1.  Go to the **[Releases](https://github.com/wagakano/LABOKit/releases/tag/v2.0)** page.
+2.  Download the `LABOKit_v2.0.exe`.
 3.  Run `LABOKit.exe` and enjoy! (☆▽☆)
+
+**(Linux)**
+**[Source Code](https://github.com/wagakano/LABOKit/tree/main_linux)**
 
 > **⚠️ Hardware Requirement:**
 > LABOKit processes everything locally using advanced AI models.
