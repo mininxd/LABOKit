@@ -38,7 +38,7 @@
 **(Windows)**
 1.  Go to the **[Releases](https://github.com/wagakano/LABOKit/releases/tag/v2.0)** page.
 2.  Download the `LABOKit_v2.0.exe`.
-3.  Run `LABOKit.exe` and enjoy! (☆▽☆)
+3.  Run `LABOKit_v2.0.exe` and enjoy! (☆▽☆)
 
 **(Linux)**
 * **[Source Code](https://github.com/wagakano/LABOKit/tree/main_linux)**
