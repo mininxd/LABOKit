@@ -1,5 +1,6 @@
 import { RealESRGANUpscaler } from './lib/upscaler';
 import { BackgroundRemover } from './lib/backgroundRemover';
+import "./style.css";
 
 // Elements
 const imageInput = document.getElementById('imageInput') as HTMLInputElement;
