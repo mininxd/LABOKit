@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-ESRGAN Upscaler Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .image-container {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+        .image-box {
+            text-align: center;
+        }
+        canvas {
+            max-width: 100%;
+            border: 1px solid #ccc;
+        }
+        .controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        button:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+        }
+        .progress {
+            margin: 10px 0;
+        }
+        input[type="range"] {
+            width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Real-ESRGAN Image Upscaler Example</h1>
+    <div class="container">
+        <div>
+            <p>Upload an image to upscale using Real-ESRGAN model:</p>
+            <input type="file" id="imageInput" accept="image/*">
+        </div>
+        
+        <div class="controls">
+            <label for="scaleFactor">Scale Factor:</label>
+            <select id="scaleFactor">
+                <option value="2">2x</option>
+                <option value="4" selected>4x</option>
+                <option value="8">8x</option>
+            </select>
+            
+            <label for="tileSize">Tile Size:</label>
+            <select id="tileSize">
+                <option value="0">No Tiling</option>
+                <option value="128">128px</option>
+                <option value="256">256px</option>
+                <option value="512">512px</option>
+            </select>
+            
+            <button id="upscaleBtn" disabled>Upscale Image</button>
+            <button id="clearBtn">Clear</button>
+        </div>
+        
+        <div class="progress" id="progressContainer" style="display: none;">
+            <div>Processing: <span id="progressText">0%</span></div>
+            <progress id="progressBar" value="0" max="100"></progress>
+        </div>
+        
+        <div class="image-container" id="imageContainer" style="display: none;">
+            <div class="image-box">
+                <h3>Original Image</h3>
+                <canvas id="originalCanvas"></canvas>
+            </div>
+            <div class="image-box">
+                <h3>Upscaled Image</h3>
+                <canvas id="upscaledCanvas"></canvas>
+            </div>
+        </div>
+    </div>
+    <script type="module" src="src/index.ts"></script>
+</body>
+</html>

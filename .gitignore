@@ -13,3 +13,4 @@ dist/
 realesrgan_ncnn/
 models/
 potrace/
+node_modules
