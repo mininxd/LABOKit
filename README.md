@@ -146,8 +146,13 @@ LABOKit is free and open-source. By purchasing this bundle (Pay What You Want), 
     *(Note: PyTorch and RealESRGAN modules are required for full feature support)*
 
 3.  **Model Setup**
-    * LABOKit will attempt to download necessary models on the first run.
-    * For the Upscaler, ensure the `realesrgan_ncnn` folder (containing the executable) and the `models` folder (containing .pth files) are correctly placed in the project directory.
+    * BG Remover (rembg)
+      * **Automatic:** The application will automatically download the required model (`u2net.onnx`, ~170MB) into the `models/` folder on the first run.
+      * **Manual (Offline):** If you prefer manual setup, download [u2net.onnx](https://github.com/danielgatis/rembg/releases/download/v0.0.0/u2net.onnx), create a folder named `models` in the project root, and place the file there (`LABOKit/models/u2net.onnx`).
+    * Upscaler (realesrgan) - ensure the `realesrgan_ncnn` folder (containing the executable) and the `models` folder (containing .pth files) are correctly placed in the project directory.
+        * Download `realesrgan-ncnn-vulkan.exe` and the models (e.g., `realesrgan-x4plus.bin`, etc.).
+        * Place them in the `realesrgan_ncnn/` folder inside the project directory.
+        * *(Note: Ensure the executable path matches the setup in `main.py`)*
 
 4.  Run the application:
     ```bash
