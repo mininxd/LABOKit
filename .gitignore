@@ -15,3 +15,4 @@ models/
 potrace/
 node_modules
 public/*.wasm
+.env
