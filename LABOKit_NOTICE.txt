@@ -1,0 +1,272 @@
+LABOKit – Modular Image Processing Toolkit
+===============================================
+
+Application: LABOKit
+Author: Kano (IG: @kanc.hii4)
+Purpose: LABOKit is a modular desktop tool for offline image processing,
+         built using Python and Qt.
+LABOKit Core & Plugins provide:
+         - Offline background removal (rembg + U^2-Net + ONNX Runtime)
+         - Offline image upscaling (Real-ESRGAN-ncnn-vulkan)
+         - Plugins - Raster to Vector tracing (Quick Vector / OpenCV)
+         - Plugins - Retro Dithering & Effects (Dithering FX)
+         - Plugins - Batch Image Conversion & Compression
+         - Plugins - Custom Model Loading (ONNX Loader)
+         - Plugins - Video Upscaling (Video Upscaler / FFmpeg)
+         - Auto-Update System for App & Plugins
+
+This application bundles and depends on several third-party open-source components.
+Their copyrights and license terms are summarized below. This NOTICE file is for
+attribution and information only and does not replace the full license texts.
+
+1. rembg
+--------
+
+Project: rembg – AI-based background removal  
+Author: Daniel Gatis and contributors  
+Homepage: https://github.com/danielgatis/rembg  
+
+License: MIT License  
+
+Copyright (c) 2020-present Daniel Gatis  
+
+The rembg project is distributed under the MIT License.
+You can find the full license text here:
+https://github.com/danielgatis/rembg/blob/main/LICENSE
+
+
+2. U^2-Net model (u2net.onnx)
+-----------------------------
+
+Model: U^2-Net (U-square-Net) ONNX model for salient object detection  
+Original paper: "U^2-Net: Going Deeper with Nested U-Structure for Salient Object Detection"  
+Authors: Xuebin Qin et al.
+Homepage (original code): https://github.com/xuebinqin/U-2-Net  
+
+License: Apache License 2.0 (for the original U^2-Net model implementation)  
+
+The ONNX model file used by LABOKit is based on the U^2-Net architecture.
+The original model implementation is released under the Apache 2.0 License.
+For details, see:
+https://github.com/xuebinqin/U-2-Net/blob/master/LICENSE
+
+
+3. ONNX Runtime
+---------------
+
+Project: ONNX Runtime – cross-platform ML inferencing engine  
+Author: Microsoft Corporation  
+Homepage: https://onnxruntime.ai/  
+
+License: MIT License  
+
+Copyright (c) Microsoft Corporation  
+
+ONNX Runtime is distributed under the MIT License.
+The full license text is available here:
+https://github.com/microsoft/onnxruntime/blob/main/LICENSE
+
+
+4. Qt for Python / PySide6
+--------------------------
+
+Project: Qt for Python (PySide6)  
+Author: The Qt Company and contributors  
+Homepage: https://www.qt.io/qt-for-python  
+
+License: GNU Lesser General Public License (LGPL), version 3 (and other compatible Qt licenses)  
+
+PySide6 is available under the LGPLv3 (and optionally other Qt commercial licenses).
+LABOKit uses PySide6 as a dynamically linked GUI library.
+
+For more information on Qt for Python licensing, see:
+https://pypi.org/project/PySide6/  
+https://doc.qt.io/qtforpython-6/licenses.html  
+
+
+5. Python
+---------
+
+Project: Python  
+Author: Python Software Foundation (PSF)  
+Homepage: https://www.python.org/  
+
+License: Python Software Foundation License (PSF License)  
+
+Python itself is distributed under the PSF License.
+More information is available at:
+https://www.python.org/downloads/source/
+
+
+6. Real-ESRGAN and Real-ESRGAN-ncnn-vulkan
+------------------------------------------
+
+Project: Real-ESRGAN – Practical algorithms for general image restoration  
+Author: Xintao Wang (xinntao) and contributors  
+Homepage: https://github.com/xinntao/Real-ESRGAN  
+
+License: BSD-3-Clause license  
+
+Real-ESRGAN is distributed under the BSD-3-Clause license.
+The license text can be found at:
+https://github.com/xinntao/Real-ESRGAN/blob/master/LICENSE
+
+Project: Real-ESRGAN-ncnn-vulkan – NCNN implementation of Real-ESRGAN  
+Author: xinntao and contributors  
+Homepage: https://github.com/xinntao/Real-ESRGAN-ncnn-vulkan  
+
+License: MIT License  
+
+Real-ESRGAN-ncnn-vulkan is distributed under the MIT License.
+For details, see:
+https://github.com/xinntao/Real-ESRGAN-ncnn-vulkan/blob/master/LICENSE
+
+LABOKit invokes the Real-ESRGAN-ncnn-vulkan executable as an external tool for
+offline image upscaling. The executable and its bundled models remain the
+property of their respective authors and are used under the terms of their
+open-source licenses.
+
+
+7. Tooling & AI Assistance
+--------------------------
+
+Some parts of the application’s structure, code skeletons, and documentation
+(including this NOTICE file) were drafted with the assistance of AI tools,
+specifically:
+
+- OpenAI’s ChatGPT (reasoning models)
+- Google's Gemini
+
+All outputs were reviewed, adapted, refined, and finalized by the author.
+All responsibility for the final source code, packaging, and distribution of
+LABOKit lies with the author (Kano).
+
+
+8. Pillow (PIL Fork)
+--------------------
+
+Project: Pillow – The friendly PIL fork (Python Imaging Library)
+Author: Jeffrey A. Clark (Alex) and contributors
+Homepage: https://python-pillow.org/
+
+License: HPND License (Historical Permission Notice and Disclaimer)
+
+Pillow is the successor to the Python Imaging Library (PIL).
+The HPND license is an open-source license similar to the MIT license.
+Full license text:
+https://raw.githubusercontent.com/python-pillow/Pillow/main/LICENSE
+
+
+9. NumPy
+--------
+
+Project: NumPy – The fundamental package for scientific computing with Python
+Author: Travis Oliphant et al.
+Homepage: https://numpy.org/
+
+License: BSD 3-Clause "New" or "Revised" License
+
+Copyright (c) 2005-2023, NumPy Developers.
+All rights reserved.
+Full license text:
+https://github.com/numpy/numpy/blob/main/LICENSE.txt
+
+
+10. OpenCV (Open Source Computer Vision Library)
+-----------------------------------------------
+
+Project: OpenCV – Open Source Computer Vision Library
+Author: OpenCV Team
+Homepage: https://opencv.org/
+
+License: Apache License 2.0
+
+OpenCV is an open source computer vision and machine learning software library.
+LABOKit uses 'opencv-python-headless' for image processing operations.
+Full license text:
+https://github.com/opencv/opencv/blob/4.x/LICENSE
+
+
+11. svgwrite
+------------
+
+Project: svgwrite – A Python library to create SVG drawings
+Author: Manfred Moitzi
+Homepage: https://github.com/mozman/svgwrite
+
+License: MIT License
+
+Copyright (c) 2010-2021, Manfred Moitzi
+
+svgwrite is distributed under the MIT License.
+Full license text:
+https://github.com/mozman/svgwrite/blob/master/LICENSE.txt
+
+
+12. packaging
+-------------
+
+Project: packaging - Core utilities for Python packages
+Homepage: https://github.com/pypa/packaging
+
+License: Apache License 2.0 or BSD 2-Clause "Simplified" License
+
+This library is used for version comparison in the auto-update system.
+Full license text:
+https://github.com/pypa/packaging/blob/main/LICENSE
+
+
+13. Requests
+------------
+
+Project: Requests - HTTP for Humans
+Author: Kenneth Reitz and contributors
+Homepage: https://requests.readthedocs.io
+
+License: Apache License 2.0
+
+Requests is used for handling HTTP operations for the update system.
+Full license text:
+https://github.com/psf/requests/blob/main/LICENSE
+
+
+14. FFmpeg
+----------
+
+Project: FFmpeg
+Authors: The FFmpeg developers
+Homepage: https://ffmpeg.org/
+
+License: LGPL v2.1+ (or GPL v2+ depending on build configuration)
+
+LABOKit uses the FFmpeg executable for video processing operations within the
+Video Upscaler plugin. FFmpeg is a trademark of Fabrice Bellard, originator
+of the FFmpeg project.
+Full license text and legal info:
+https://ffmpeg.org/legal.html
+
+
+15. General Notes
+----------------
+
+- LABOKit does not provide or claim ownership of the machine learning models
+  or algorithms used by rembg / U^2-Net / ONNX Runtime / Real-ESRGAN /
+  Real-ESRGAN-ncnn-vulkan. These remain the property of their respective
+  authors and organizations.
+- This application bundles those components to provide an offline background
+  removal and image upscaling workflow. Users are responsible for ensuring
+  their own compliance with the license terms of each third-party component,
+  especially for commercial or redistributed use.
+- For full legal terms, always refer to the official license files and
+  documentation of each project.
+
+
+16. Creative inspiration
+-----------------------
+
+The overall concept, aesthetic, and naming of LABOKit are partly inspired by
+the anime series "STEINS;GATE" by 5pb./Nitroplus and their respective right
+holders.
+LABOKit is an independent, fan-inspired tool and is not affiliated with,
+endorsed, or sponsored by the creators, publishers, or rights holders of
+STEINS;GATE.

@@ -1,0 +1,5 @@
+{
+  "version": "2.0.0",
+  "url": "https://github.com/wagakano/LABOKit/releases",
+  "changelog": "v2.0 Update:<br>+ New: ImageLAB, CPU Upscaling, & ONNX Loader<br>+ Auto-Updates for App & Plugins<br>+ UI Overhaul & Improved Dithering FX<br>+ Fixed transparency bugs"
+}
