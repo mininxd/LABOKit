@@ -12,4 +12,4 @@ dist/
 .idea/
 realesrgan_ncnn/
 models/
-potrace/realesr-general-x4v3.onnx
+potrace/
