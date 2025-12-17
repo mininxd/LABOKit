@@ -1,7 +1,21 @@
 import * as ort from 'onnxruntime-web';
 
-// Configure ONNX Runtime to load WASM files from the root directory
-ort.env.wasm.wasmPaths = "/";
+// Configure ONNX Runtime to load WASM files from the public directory
+ort.env.wasm.wasmPaths = {
+  'ort-wasm.wasm': '/ort-wasm-simd-threaded.wasm',
+  'ort-wasm-simd.wasm': '/ort-wasm-simd-threaded.wasm',
+  'ort-wasm-threaded.wasm': '/ort-wasm-simd-threaded.wasm',
+  'ort-wasm-simd-threaded.wasm': '/ort-wasm-simd-threaded.wasm',
+  'ort-wasm.wasm.map': '/ort-wasm-simd-threaded.wasm.map', // if available
+  'ort-wasm-simd.wasm.map': '/ort-wasm-simd-threaded.wasm.map', // if available
+  'ort-wasm-threaded.wasm.map': '/ort-wasm-simd-threaded.wasm.map', // if available
+  'ort-wasm-simd-threaded.wasm.map': '/ort-wasm-simd-threaded.wasm.map' // if available
+};
+
+// Additional WASM backend configuration
+ort.env.wasm.numThreads = 1; // Limit threads for compatibility
+ort.env.wasm.simd = true;    // Enable SIMD instructions for performance
+ort.env.wasm.proxy = false;  // Disable proxy mode in development
 
 export interface UpscaleOptions {
   scale?: number;
@@ -15,7 +29,7 @@ export class RealESRGANUpscaler {
   private session: ort.InferenceSession | null = null;
   private isInitialized = false;
 
-  constructor(modelPath: string = '/src/onnx/realesr-general-x4v3.onnx') {
+  constructor(modelPath: string = '/realesr-general-x4v3.onnx') {
     this.modelPath = modelPath;
   }
 
@@ -64,9 +78,9 @@ export class RealESRGANUpscaler {
 
   private preprocessImage(image: ImageData): ort.Tensor {
     const { width, height, data } = image;
-    
+
     const rgbArray = new Float32Array(width * height * 3);
-    
+
     for (let i = 0; i < width * height; i++) {
       rgbArray[i] = (data[i * 4] / 255.0) * 2.0 - 1.0;
       rgbArray[i + width * height] = (data[i * 4 + 1] / 255.0) * 2.0 - 1.0;
@@ -74,21 +88,21 @@ export class RealESRGANUpscaler {
     }
 
     const tensor = new ort.Tensor('float32', rgbArray, [1, 3, height, width]);
-    
+
     return tensor;
   }
 
   private postprocessOutput(
-    outputTensor: ort.Tensor, 
-    originalWidth: number, 
-    originalHeight: number, 
+    outputTensor: ort.Tensor,
+    originalWidth: number,
+    originalHeight: number,
     scale: number
   ): ImageData {
     const outputArray = outputTensor.data as Float32Array;
 
     const finalWidth = originalWidth * scale;
     const finalHeight = originalHeight * scale;
-    
+
     const rgbaArray = new Uint8ClampedArray(finalWidth * finalHeight * 4);
 
     for (let i = 0; i < finalWidth * finalHeight; i++) {
@@ -186,7 +200,7 @@ export class RealESRGANUpscaler {
         if (row === 0) yStart = 0;
         if (col === cols - 1) xEnd = width;
         if (row === rows - 1) yEnd = height;
-        
+
         const tileW = xEnd - xStart;
         const tileH = yEnd - yStart;
 

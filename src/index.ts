@@ -18,10 +18,11 @@ let originalImageData: ImageData | null = null;
 async function initUpscaler() {
     try {
         console.log('Initializing Real-ESRGAN upscaler...');
+
         upscaler = await createUpscaler();
-        
+
         console.log('Model info:', upscaler.getModelInfo());
-        
+
         upscaleBtn.disabled = false;
         console.log('Real-ESRGAN upscaler initialized successfully!');
     } catch (error) {
