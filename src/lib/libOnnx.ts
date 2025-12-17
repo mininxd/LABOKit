@@ -1,5 +1,8 @@
 import * as ort from 'onnxruntime-web';
 
+// Configure ONNX Runtime to load WASM files from the root directory
+ort.env.wasm.wasmPaths = "/";
+
 export interface UpscaleOptions {
   scale?: number;
   crop?: boolean;
